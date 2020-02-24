@@ -1,4 +1,8 @@
+const isProduction = process.env.NODE_ENV !== "development";
+
 module.exports = {
-  assetPrefix: "http://starptech.de/judge-framework/",
+  assetPrefix: isProduction
+    ? "http://starptech.de/judge-framework/"
+    : undefined,
   poweredByHeader: false
 };
