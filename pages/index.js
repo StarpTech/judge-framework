@@ -60,9 +60,9 @@ function Card({ card, index, onClick }) {
 
       <div className="relative text-white px-6 pb-6 mt-6">
         <div className="flex justify-between">
-          <span className="block font-semibold text-xl pt-3">{title}</span>
+          <span className="block font-bold text-2xl pt-3 pb-3">{title}</span>
         </div>
-        <span className="block opacity-75 -mb-1">{desc}</span>
+        <span className="block opacity-75 -mb-1 text-gray-200">{desc}</span>
       </div>
     </div>
   );
@@ -226,40 +226,39 @@ export default function Index() {
 
         <div className="md:flex mt-6 mb-6 pb-6 justify-center">
           <div
-            class="bg-teal-lightest border-t-4 border-teal rounded-b text-teal-darkest px-4 py-3 shadow-md my-2 max-w-2xl"
+            className="bg-teal-lightest border-t-4 border-teal rounded-b text-teal-darkest px-4 py-3 shadow-md my-2 max-w-2xl"
             role="alert"
           >
-            <div class="flex">
+            <div className="flex">
               <svg
-                class="h-6 w-6 text-teal mr-4"
+                className="h-6 w-6 text-teal mr-4"
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 20 20"
               >
                 <path d="M2.93 17.07A10 10 0 1 1 17.07 2.93 10 10 0 0 1 2.93 17.07zm12.73-1.41A8 8 0 1 0 4.34 4.34a8 8 0 0 0 11.32 11.32zM9 11V9h2v6H9v-4zm0-6h2v2H9V5z" />
               </svg>
               <div>
-                <p class="font-bold">What is JUDGE?</p>
-                <p class="text-sm">
+                <p className="font-bold">What is JUDGE?</p>
+                <p className="text-sm">
                   JUDGE – Just an Ultimate Decision Guide
                   <br /> is a tool to express your insecurity in a way that
                   others can understand.
                   <br />
                   <br />
-                  <ul class="list-disc">
+                  <ul className="list-disc">
                     <li>
-                      <b>Consensus:</b> Members don’t “block” decisions and
+                      <b>Consensus 0-2:</b> Members don’t “block” decisions and
                       don't waste time debating or trying to persuade other
                       members to minimize their objections.
                     </li>
                     <li>
-                      <b>Consent:</b> Does not require agreement, affirmation or
-                      even preference because there are no significant
-                      objections to a policy.
+                      <b>Consent 0-4:</b> Does not require agreement,
+                      affirmation or even preference because there are no
+                      significant objections to a policy.
                     </li>
                     <li>
-                      <b>Decision is blocked:</b> Members can't follow the
-                      proposal or won't spend more time on it because they don't
-                      feel responsible.
+                      <b>Decision is blocked 5-6:</b> Members can't follow the
+                      proposal or don't want to take action.
                     </li>
                   </ul>
                   <br />
