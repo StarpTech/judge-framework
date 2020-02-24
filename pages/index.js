@@ -155,8 +155,8 @@ export default function Index() {
   return (
     <div className="mx-auto p-4">
       <NextSeo
-        title="Judge-Framework for decision making"
-        description="Judge-Framework for decision making."
+        title="Judge - Just an Ultimate Decision Guide"
+        description="Judge - Just an Ultimate Decision Guide"
       />
       <div className="">
         <link
@@ -223,6 +223,41 @@ export default function Index() {
             Judge Framework
           </h1>
         </header>
+
+        <div className="md:flex mt-6 mb-6 pb-6 justify-center">
+          <div
+            class="bg-teal-lightest border-t-4 border-teal rounded-b text-teal-darkest px-4 py-3 shadow-md my-2"
+            role="alert"
+          >
+            <div class="flex">
+              <svg
+                class="h-6 w-6 text-teal mr-4"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 20 20"
+              >
+                <path d="M2.93 17.07A10 10 0 1 1 17.07 2.93 10 10 0 0 1 2.93 17.07zm12.73-1.41A8 8 0 1 0 4.34 4.34a8 8 0 0 0 11.32 11.32zM9 11V9h2v6H9v-4zm0-6h2v2H9V5z" />
+              </svg>
+              <div>
+                <p class="font-bold">What is Judge?</p>
+                <p class="text-sm">
+                  JUDGE – Just an Ultimate Decision Guide
+                  <br /> is a tool to express your insecurity in a way that
+                  others can understand.
+                  <br />
+                  <br />
+                  <div className=" text-right">
+                    <a
+                      className="text-red-800"
+                      href="http://mytoysdevblog.wpengine.com/index.php/2018/06/28/die-magie-von-gruppenentscheidungen/"
+                    >
+                      Blog post (German)
+                    </a>
+                  </div>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
 
         <div className="flex mt-6 mb-6 pb-6 justify-center">
           <ul className="flex justify-between text-xl flex-col sm:flex-row">
