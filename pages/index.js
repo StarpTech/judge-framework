@@ -20,7 +20,7 @@ function Card({ card, index, onClick }) {
     <div
       onClick={() => onClick(card)}
       className={classNames(
-        "flex-shrink-0 m-6 relative overflow-hidden rounded-lg shadow-lg grow cursor-pointer",
+        "m-6 relative overflow-hidden rounded-lg shadow-lg grow cursor-pointer",
         { "card--disabled": isDisabled, "card--active": isActive },
         color,
         className
@@ -317,7 +317,7 @@ export default function Index() {
           </ul>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-7 gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-7 gap-1">
           {cards.map((card, index) => {
             return (
               <Card
