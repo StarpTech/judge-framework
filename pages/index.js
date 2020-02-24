@@ -4,19 +4,24 @@ import { NextSeo } from "next-seo";
 
 function Card({ card, index, onClick }) {
   const [isDisabled, setDisabled] = useState(false);
+  const [isActive, setActive] = useState(false);
   const style = { transform: "scale(1.5)", opacity: 0.1 };
-  const { title, desc, className, disabled, color } = card;
+  const { title, desc, className, disabled, color, active } = card;
 
   useEffect(() => {
     setDisabled(disabled);
-  }, [card.disabled]);
+  }, [disabled]);
+
+  useEffect(() => {
+    setActive(active);
+  }, [active]);
 
   return (
     <div
       onClick={() => onClick(card)}
       className={classNames(
         "flex-shrink-0 m-6 relative overflow-hidden rounded-lg shadow-lg grow cursor-pointer",
-        { "card--disabled": isDisabled },
+        { "card--disabled": isDisabled, "card--active": isActive },
         color,
         className
       )}
@@ -139,9 +144,9 @@ export default function Index() {
     for (let i = 0; i < cards.length; i++) {
       const card = cards[i];
       if (card.title === current.title) {
-        card.disabled = false;
+        card.active = true;
       } else {
-        card.disabled = true;
+        card.active = false;
       }
     }
     setCards([...cards]);

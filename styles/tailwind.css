@@ -11,3 +11,6 @@
 .card--disabled {
   filter: blur(15px) grayscale(100%);
 }
+.card--active {
+  transform: scale(1.2);
+}
