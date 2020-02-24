@@ -220,7 +220,7 @@ export default function Index() {
         </header>
 
         <div className="flex mt-6 mb-6 pb-6 justify-center">
-          <ul className="flex text-xl">
+          <ul className="flex justify-between text-xl flex-col sm:flex-row">
             <li className="mr-2">
               <a
                 className="text-center block border border-white rounded hover:border-gray-200 text-gray-700 hover:bg-gray-200 py-2 px-4"
