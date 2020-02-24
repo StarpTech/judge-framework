@@ -215,7 +215,7 @@ export default function Index() {
             />
           </svg>
           <h1 className="border-b-2 border-dotted text-5xl pl-3">
-            <a href="/">Judge Framework</a>
+            Judge Framework
           </h1>
         </header>
 
