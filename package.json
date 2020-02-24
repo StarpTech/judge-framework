@@ -11,7 +11,7 @@
     "start": "NODE_ENV=production next start",
     "export": "next export",
     "serve-docs": "serve docs",
-    "deploy": "rm -rf .next docs && NODE_ENV=production yarn build && yarn export -o docs"
+    "deploy": "rm -rf .next docs && NODE_ENV=production yarn build && yarn export -o docs && touch docs/.nojekyll"
   },
   "dependencies": {
     "autoprefixer": "^9.7.4",
