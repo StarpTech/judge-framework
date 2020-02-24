@@ -155,8 +155,8 @@ export default function Index() {
   return (
     <div className="mx-auto p-4">
       <NextSeo
-        title="Judge - Just an Ultimate Decision Guide"
-        description="Judge - Just an Ultimate Decision Guide"
+        title="JUDGE - Just an Ultimate Decision Guide"
+        description="JUDGE - Just an Ultimate Decision Guide"
       />
       <div className="">
         <link
@@ -220,7 +220,7 @@ export default function Index() {
             />
           </svg>
           <h1 className="border-b-2 border-dotted text-5xl pl-3">
-            Judge Framework
+            JUDGE Framework
           </h1>
         </header>
 
@@ -238,7 +238,7 @@ export default function Index() {
                 <path d="M2.93 17.07A10 10 0 1 1 17.07 2.93 10 10 0 0 1 2.93 17.07zm12.73-1.41A8 8 0 1 0 4.34 4.34a8 8 0 0 0 11.32 11.32zM9 11V9h2v6H9v-4zm0-6h2v2H9V5z" />
               </svg>
               <div>
-                <p class="font-bold">What is Judge?</p>
+                <p class="font-bold">What is JUDGE?</p>
                 <p class="text-sm">
                   JUDGE – Just an Ultimate Decision Guide
                   <br /> is a tool to express your insecurity in a way that
@@ -315,7 +315,7 @@ export default function Index() {
       </div>
       <div>
         <div className="text-xs text-center text-teal-900  mt-5 ">
-          © 2020 <a href="https://dynabase.de/">dynabase</a>{" "}
+          © 2020 <a href="https://dynabase.de/">developed by dynabase</a>{" "}
           <div>
             Icons created by{" "}
             <a
