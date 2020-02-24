@@ -1,0 +1,23 @@
+{
+  "name": "judge-framework",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:StarpTech/judge-framework.git",
+  "author": "Dustin Deus <deusdustin@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "dev": "next",
+    "build": "next build",
+    "start": "next start"
+  },
+  "dependencies": {
+    "autoprefixer": "^9.7.4",
+    "classnames": "^2.2.6",
+    "next": "^9.2.2",
+    "next-seo": "^4.3.0",
+    "postcss-import": "^12.0.1",
+    "react": "^16.12.0",
+    "react-dom": "^16.12.0",
+    "tailwindcss": "^1.2.0"
+  }
+}
