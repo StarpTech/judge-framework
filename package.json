@@ -10,6 +10,7 @@
     "build": "NODE_ENV=production next build",
     "start": "NODE_ENV=production next start",
     "export": "next export",
+    "serve-docs": "serve docs",
     "deploy": "NODE_ENV=production yarn build && yarn export -o docs"
   },
   "dependencies": {
@@ -23,6 +24,6 @@
     "tailwindcss": "^1.2.0"
   },
   "devDependencies": {
-    "gh-pages": "^2.2.0"
+    "serve": "^11.3.0"
   }
 }

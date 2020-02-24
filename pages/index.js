@@ -22,7 +22,7 @@ function Card({ card, index, onClick }) {
       )}
     >
       <svg
-        class="absolute bottom-0 left-0 mb-8"
+        className="absolute bottom-0 left-0 mb-8"
         viewBox="0 0 375 283"
         fill="none"
         style={style}
@@ -53,11 +53,11 @@ function Card({ card, index, onClick }) {
         {index}
       </div>
 
-      <div class="relative text-white px-6 pb-6 mt-6">
-        <div class="flex justify-between">
-          <span class="block font-semibold text-xl pt-3">{title}</span>
+      <div className="relative text-white px-6 pb-6 mt-6">
+        <div className="flex justify-between">
+          <span className="block font-semibold text-xl pt-3">{title}</span>
         </div>
-        <span class="block opacity-75 -mb-1">{desc}</span>
+        <span className="block opacity-75 -mb-1">{desc}</span>
       </div>
     </div>
   );
@@ -150,7 +150,7 @@ export default function Index() {
   return (
     <div className="mx-auto p-4">
       <NextSeo
-        title="Judge Framework"
+        title="Judge-Framework for decision making"
         description="Judge-Framework for decision making."
       />
       <div className="">
@@ -220,37 +220,37 @@ export default function Index() {
         </header>
 
         <div className="flex mt-6 mb-6 pb-6 justify-center">
-          <ul class="flex text-xl">
-            <li class="mr-2">
+          <ul className="flex text-xl">
+            <li className="mr-2">
               <a
-                class="text-center block border border-white rounded hover:border-gray-200 text-gray-700 hover:bg-gray-200 py-2 px-4"
+                className="text-center block border border-white rounded hover:border-gray-200 text-gray-700 hover:bg-gray-200 py-2 px-4"
                 href="#"
                 onClick={() => handleRangeClick(0, 6)}
               >
                 All
               </a>
             </li>
-            <li class="mr-2">
+            <li className="mr-2">
               <a
-                class="text-center block border border-white rounded hover:border-gray-200 text-gray-700 hover:bg-gray-200 py-2 px-4"
+                className="text-center block border border-white rounded hover:border-gray-200 text-gray-700 hover:bg-gray-200 py-2 px-4"
                 href="#"
                 onClick={() => handleRangeClick(0, 2)}
               >
                 0-2 Consensus
               </a>
             </li>
-            <li class="mr-2">
+            <li className="mr-2">
               <a
-                class="text-center block border border-white rounded hover:border-gray-200 text-gray-700 hover:bg-gray-200 py-2 px-4"
+                className="text-center block border border-white rounded hover:border-gray-200 text-gray-700 hover:bg-gray-200 py-2 px-4"
                 href="#"
                 onClick={() => handleRangeClick(0, 4)}
               >
                 0-4 Consent
               </a>
             </li>
-            <li class="text-center">
+            <li className="text-center">
               <a
-                class="text-center block border border-white rounded hover:border-gray-200 text-gray-700 hover:bg-gray-200 py-2 px-4"
+                className="text-center block border border-white rounded hover:border-gray-200 text-gray-700 hover:bg-gray-200 py-2 px-4"
                 href="#"
                 onClick={() => handleRangeClick(5, 6)}
               >
@@ -274,7 +274,7 @@ export default function Index() {
         </div>
       </div>
       <div>
-        <div class="text-xs text-center text-teal-900  mt-5 ">
+        <div className="text-xs text-center text-teal-900  mt-5 ">
           © 2020 <a href="https://dynabase.de/">dynabase</a>{" "}
           <div>
             Icons created by{" "}
