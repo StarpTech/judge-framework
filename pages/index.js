@@ -226,7 +226,7 @@ export default function Index() {
 
         <div className="md:flex mt-6 mb-6 pb-6 justify-center">
           <div
-            class="bg-teal-lightest border-t-4 border-teal rounded-b text-teal-darkest px-4 py-3 shadow-md my-2"
+            class="bg-teal-lightest border-t-4 border-teal rounded-b text-teal-darkest px-4 py-3 shadow-md my-2 max-w-2xl"
             role="alert"
           >
             <div class="flex">
@@ -244,6 +244,24 @@ export default function Index() {
                   <br /> is a tool to express your insecurity in a way that
                   others can understand.
                   <br />
+                  <br />
+                  <ul class="list-disc">
+                    <li>
+                      <b>Consensus:</b> Members don’t “block” decisions and
+                      don't waste time debating or trying to persuade other
+                      members to minimize their objections.
+                    </li>
+                    <li>
+                      <b>Consent:</b> Does not require agreement, affirmation or
+                      even preference because there are no significant
+                      objections to a policy.
+                    </li>
+                    <li>
+                      <b>Decision is blocked:</b> Members can't follow the
+                      proposal or won't spend more time on it because they don't
+                      feel responsible.
+                    </li>
+                  </ul>
                   <br />
                   <div className=" text-right">
                     <a
@@ -294,7 +312,7 @@ export default function Index() {
                 href="#"
                 onClick={() => handleRangeClick(5, 6)}
               >
-                4-6 Decision is blocked
+                5-6 Decision is blocked
               </a>
             </li>
           </ul>
