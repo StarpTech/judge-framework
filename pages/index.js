@@ -247,14 +247,11 @@ export default function Index() {
                   <br />
                   <ul className="list-disc">
                     <li>
-                      <b>Consensus 0-2:</b> Members don’t “block” decisions and
-                      don't waste time debating or trying to persuade other
-                      members to minimize their objections.
+                      <b>Consensus 0-2:</b> Does not require agreement,
+                      affirmation or even preference.
                     </li>
                     <li>
-                      <b>Consent 0-4:</b> Does not require agreement,
-                      affirmation or even preference because there are no
-                      significant objections to a policy.
+                      <b>Consent 0-4:</b> Members don’t “block” decisions.
                     </li>
                     <li>
                       <b>Decision is blocked 5-6:</b> Members can't follow the
