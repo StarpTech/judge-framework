@@ -255,16 +255,25 @@ export default function Index() {
                     </li>
                     <li>
                       <b>Decision is blocked 5-6:</b> Members can't follow the
-                      proposal or don't want to take action.
+                      proposal or don't wish to attend.
                     </li>
                   </ul>
                   <br />
-                  <div className=" text-right">
+                  <div className="text-right">
                     <a
                       className="text-red-800"
+                      target="_blank"
                       href="http://mytoysdevblog.wpengine.com/index.php/2018/06/28/die-magie-von-gruppenentscheidungen/"
                     >
                       Blog post (German)
+                    </a>
+                    <span className="text-red-800"> | </span>
+                    <a
+                      className="text-red-800"
+                      target="_blank"
+                      href="https://www.youtube.com/watch?v=t4eVn_MxOUQ"
+                    >
+                      Video (German)
                     </a>
                   </div>
                 </p>
@@ -329,7 +338,7 @@ export default function Index() {
       </div>
       <div>
         <div className="text-xs text-center text-teal-900  mt-5 ">
-          © 2020 <a href="https://dynabase.de/">developed by dynabase</a>{" "}
+          © 2020 <a href="https://dynabase.de/" className="text-red-800" target="_blank">developed by dynabase</a>{" "}
           <div>
             Icons created by{" "}
             <a
