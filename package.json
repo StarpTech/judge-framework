@@ -14,10 +14,12 @@
     "deploy": "rm -rf .next docs && NODE_ENV=production yarn build && yarn export -o docs && touch docs/.nojekyll"
   },
   "dependencies": {
+    "async-mqtt": "^2.5.0",
     "autoprefixer": "^9.7.4",
     "classnames": "^2.2.6",
+    "nanoid": "^2.1.11",
     "next": "^9.2.2",
-    "next-seo": "^4.3.0",
+    "next-seo": "^4.4.0",
     "postcss-import": "^12.0.1",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
