@@ -5,5 +5,8 @@ module.exports = {
     "/": { page: "/" }
   }),
   assetPrefix: isProduction ? "/judge-framework" : "",
-  poweredByHeader: false
+  poweredByHeader: false,
+  env: {
+    ROOT_PATH: isProduction ? "/judge-framework" : "/"
+  }
 };

@@ -95,9 +95,13 @@ export default function Index() {
   const userMapRef = useMemo(() => new Map(), []);
 
   const handleShare = () => {
-    router.push(`/?g=${groupIDRef.current}`, `/?g=${groupIDRef.current}`, {
-      shallow: true
-    });
+    router.push(
+      `${process.env.ROOT_PATH}?g=${groupIDRef.current}`,
+      `${process.env.ROOT_PATH}?g=${groupIDRef.current}`,
+      {
+        shallow: true
+      }
+    );
     alert("Share the url with others and don't reload the page!");
   };
 
