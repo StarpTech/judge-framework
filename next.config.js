@@ -7,6 +7,7 @@ module.exports = {
   assetPrefix: isProduction ? "/judge-framework" : "",
   poweredByHeader: false,
   env: {
-    ROOT_PATH: isProduction ? "/judge-framework" : "/"
+    ROOT_PATH: isProduction ? "/judge-framework" : "/",
+    DOMAIN: isProduction ? "http://starptech.de" : "http://localhost:3000"
   }
 };

@@ -1,91 +1,19 @@
-import classNames from "classnames";
 import MQTT from "async-mqtt";
+import { useClipboard } from "use-clipboard-copy";
 import nanoid from "nanoid";
 import { useEffect, useState, useRef, useMemo } from "react";
-import { useRouter } from "next/router";
+import Card from "../components/card";
 import allCards from "../lib/cards";
+import { getUrlParam } from "../lib/helper";
 import { NextSeo } from "next-seo";
 
-function getUrlParam(name) {
-  name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
-  var regexS = "[\\?&]" + name + "=([^&#]*)";
-  var regex = new RegExp(regexS);
-  var results = regex.exec(window.location.href);
-  if (results == null) return null;
-  else return results[1];
-}
-
-function Card({ card, index, onClick, style }) {
-  const [isDisabled, setDisabled] = useState(false);
-  const [isActive, setActive] = useState(false);
-  const innerCardStyle = { transform: "scale(1.5)", opacity: 0.1 };
-  const { title, desc, className, disabled, color, active, stat } = card;
-
-  useEffect(() => {
-    setDisabled(disabled);
-  }, [disabled]);
-
-  useEffect(() => {
-    setActive(active);
-  }, [active]);
-
-  return (
-    <div
-      onClick={() => onClick(card)}
-      style={style}
-      className={classNames(
-        "m-6 relative overflow-hidden rounded-lg shadow-lg grow cursor-pointer",
-        { "card--disabled": isDisabled, "card--active": isActive },
-        color,
-        className
-      )}
-    >
-      <svg
-        className="absolute bottom-0 left-0 mb-8"
-        viewBox="0 0 375 283"
-        fill="none"
-        style={innerCardStyle}
-      >
-        <rect
-          x="159.52"
-          y="175"
-          width="152"
-          height="152"
-          rx="8"
-          transform="rotate(-45 159.52 175)"
-          fill="white"
-        />
-        <rect
-          y="107.48"
-          width="152"
-          height="152"
-          rx="8"
-          transform="rotate(-45 0 107.48)"
-          fill="white"
-        />
-      </svg>
-      <div
-        className={classNames(
-          "h-32 w-full flex items-center justify-center text-white text-6xl"
-        )}
-      >
-        {index} {stat > 0 ? `(${stat})` : null}
-      </div>
-
-      <div className="relative text-white px-6 pb-6 mt-6">
-        <div className="flex justify-between">
-          <span className="block font-bold text-2xl pt-3 pb-3">{title}</span>
-        </div>
-        <span className="block opacity-75 -mb-1 text-gray-200">{desc}</span>
-      </div>
-    </div>
-  );
-}
-
 export default function Index() {
-  const router = useRouter();
   const [cards, setCards] = useState(() => allCards);
   const [status, setStatus] = useState("");
+  const [sharedUrl, setSharedUrl] = useState("");
+  const clipboard = useClipboard({
+    copiedTimeout: 2000 // timeout duration in milliseconds
+  });
 
   const userIDRef = useRef(nanoid());
   const groupIDRef = useRef("");
@@ -95,13 +23,11 @@ export default function Index() {
   const userMapRef = useMemo(() => new Map(), []);
 
   const handleShare = () => {
-    router.push(
-      `${process.env.ROOT_PATH}?g=${groupIDRef.current}`,
-      `${process.env.ROOT_PATH}?g=${groupIDRef.current}`,
-      { shallow: true }
+    setSharedUrl(
+      `${process.env.DOMAIN}${process.env.ROOT_PATH}?g=${groupIDRef.current}`
     );
+    clipboard.copy(sharedUrl);
     localStorage.setItem("masterOfGroupVoteID", groupIDRef.current);
-    alert("Share the url with others and don't reload the page!");
   };
 
   useEffect(() => {
@@ -296,15 +222,20 @@ export default function Index() {
                   className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
                   onClick={handleShare}
                 >
-                  Start
+                  Copy link
                 </button>
               )}
               <div className="text-sm lg:flex-grow">
+                <span className="block mt-4 lg:inline-block lg:mt-0 text-green-500 ml-3">
+                  {clipboard.copied ? "Copied!" : null}
+                </span>
+                {groupIDRef.current && (
+                  <span className="block mt-4 lg:inline-block lg:mt-0 text-white ml-3">
+                    <b>Session:</b> {groupIDRef.current}
+                  </span>
+                )}
                 <span className="block mt-4 lg:inline-block lg:mt-0 text-white ml-3">
                   <b>State:</b> {status}
-                </span>
-                <span className="block mt-4 lg:inline-block lg:mt-0 text-green-200 ml-3">
-                  <b>100% Anonym</b>
                 </span>
               </div>
             </div>

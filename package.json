@@ -23,7 +23,8 @@
     "postcss-import": "^12.0.1",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
-    "tailwindcss": "^1.2.0"
+    "tailwindcss": "^1.2.0",
+    "use-clipboard-copy": "^0.1.2"
   },
   "devDependencies": {
     "serve": "^11.3.0"
