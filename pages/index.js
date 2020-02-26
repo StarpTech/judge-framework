@@ -100,11 +100,14 @@ export default function Index() {
       `${process.env.ROOT_PATH}?g=${groupIDRef.current}`,
       { shallow: true }
     );
+    localStorage.setItem("masterOfGroupVoteID", groupIDRef.current);
     alert("Share the url with others and don't reload the page!");
   };
 
   useEffect(() => {
-    isMasterRef.current = !getUrlParam("g");
+    isMasterRef.current =
+      localStorage.getItem("masterOfGroupVoteID") === getUrlParam("g") ||
+      !getUrlParam("g");
 
     const client = MQTT.connect("ws://broker.hivemq.com:8000/mqtt");
 
@@ -308,63 +311,65 @@ export default function Index() {
           </header>
         )}
 
-        <div className="md:flex mt-6 mb-6 pb-6 justify-center">
-          <div
-            className="bg-teal-lightest border-t-4 border-teal rounded-b text-teal-darkest px-4 py-3 shadow-md my-2 max-w-2xl"
-            role="alert"
-          >
-            <div className="flex">
-              <svg
-                className="h-6 w-6 text-teal mr-4"
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 20 20"
-              >
-                <path d="M2.93 17.07A10 10 0 1 1 17.07 2.93 10 10 0 0 1 2.93 17.07zm12.73-1.41A8 8 0 1 0 4.34 4.34a8 8 0 0 0 11.32 11.32zM9 11V9h2v6H9v-4zm0-6h2v2H9V5z" />
-              </svg>
-              <div>
-                <p className="font-bold">What is JUDGE?</p>
-                <div className="text-sm">
-                  JUDGE – Just an Ultimate Decision Guide
-                  <br /> is a tool to express your insecurity in a way that
-                  others can understand.
-                  <br />
-                  <br />
-                  <ul className="list-disc">
-                    <li>
-                      <b>Consensus 0-2:</b> Does not require agreement,
-                      affirmation or even preference.
-                    </li>
-                    <li>
-                      <b>Consent 0-4:</b> Members don’t “block” decisions.
-                    </li>
-                    <li>
-                      <b>Decision is blocked 5-6:</b> Members can't follow the
-                      proposal or don't wish to attend.
-                    </li>
-                  </ul>
-                  <br />
-                  <div className="text-right">
-                    <a
-                      className="text-red-800"
-                      target="_blank"
-                      href="http://mytoysdevblog.wpengine.com/index.php/2018/06/28/die-magie-von-gruppenentscheidungen/"
-                    >
-                      Blog post (German)
-                    </a>
-                    <span className="text-red-800"> | </span>
-                    <a
-                      className="text-red-800"
-                      target="_blank"
-                      href="https://www.youtube.com/watch?v=t4eVn_MxOUQ"
-                    >
-                      Video (German)
-                    </a>
+        {isMasterRef.current && (
+          <div className="md:flex mt-6 mb-6 pb-6 justify-center">
+            <div
+              className="bg-teal-lightest border-t-4 border-teal rounded-b text-teal-darkest px-4 py-3 shadow-md my-2 max-w-2xl"
+              role="alert"
+            >
+              <div className="flex">
+                <svg
+                  className="h-6 w-6 text-teal mr-4"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 20 20"
+                >
+                  <path d="M2.93 17.07A10 10 0 1 1 17.07 2.93 10 10 0 0 1 2.93 17.07zm12.73-1.41A8 8 0 1 0 4.34 4.34a8 8 0 0 0 11.32 11.32zM9 11V9h2v6H9v-4zm0-6h2v2H9V5z" />
+                </svg>
+                <div>
+                  <p className="font-bold">What is JUDGE?</p>
+                  <div className="text-sm">
+                    JUDGE – Just an Ultimate Decision Guide
+                    <br /> is a tool to express your insecurity in a way that
+                    others can understand.
+                    <br />
+                    <br />
+                    <ul className="list-disc">
+                      <li>
+                        <b>Consensus 0-2:</b> Does not require agreement,
+                        affirmation or even preference.
+                      </li>
+                      <li>
+                        <b>Consent 0-4:</b> Members don’t “block” decisions.
+                      </li>
+                      <li>
+                        <b>Decision is blocked 5-6:</b> Members can't follow the
+                        proposal or don't wish to attend.
+                      </li>
+                    </ul>
+                    <br />
+                    <div className="text-right">
+                      <a
+                        className="text-red-800"
+                        target="_blank"
+                        href="http://mytoysdevblog.wpengine.com/index.php/2018/06/28/die-magie-von-gruppenentscheidungen/"
+                      >
+                        Blog post (German)
+                      </a>
+                      <span className="text-red-800"> | </span>
+                      <a
+                        className="text-red-800"
+                        target="_blank"
+                        href="https://www.youtube.com/watch?v=t4eVn_MxOUQ"
+                      >
+                        Video (German)
+                      </a>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
+        )}
 
         {isMasterRef.current && (
           <div className="flex mt-6 mb-6 pb-6 justify-center">
