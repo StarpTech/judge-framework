@@ -121,6 +121,10 @@ export default function Index() {
       console.log("Starting");
 
       try {
+        await client.subscribe(topic, {
+          qos: 1
+        });
+        console.log("Subscription created! Topic: " + topic);
         client.on("message", (t, message) => {
           console.log(message.toString());
 
@@ -141,14 +145,6 @@ export default function Index() {
     };
 
     setStatus("Connecting...");
-
-    client
-      .subscribe(topic, {
-        qos: 1
-      })
-      .then(() => {
-        console.log("Subscription created! Topic: " + topic);
-      });
 
     client.on("connect", a => {
       setStatus("Connected!");
@@ -203,6 +199,11 @@ export default function Index() {
       return;
     }
 
+    const r = confirm(`You want to select '${current.title}' ?`);
+    if (r !== true) {
+      return;
+    }
+
     console.log(`Publish to topic ${topicRef.current}`);
 
     await clientRef.current.publish(
@@ -213,8 +214,6 @@ export default function Index() {
     // await clientRef.current.unsubscribe(topicRef.current);
 
     localStorage.setItem("lastGroupVoteID", groupIDRef.current);
-
-    alert("Thanks for voting!");
   };
 
   return (
