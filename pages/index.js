@@ -69,7 +69,7 @@ function Card({ card, index, onClick, style }) {
           "h-32 w-full flex items-center justify-center text-white text-6xl"
         )}
       >
-        {index} ({stat})
+        {index} {stat > 0 ? `(${stat})` : null}
       </div>
 
       <div className="relative text-white px-6 pb-6 mt-6">
