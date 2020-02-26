@@ -3,7 +3,7 @@ import MQTT from "async-mqtt";
 import nanoid from "nanoid";
 import { useEffect, useState, useRef, useMemo } from "react";
 import { useRouter } from "next/router";
-import allCards from "./cards";
+import allCards from "../lib/cards";
 import { NextSeo } from "next-seo";
 
 function getUrlParam(name) {
@@ -278,7 +278,7 @@ export default function Index() {
             </div>
             <div className="w-full flex-grow lg:flex lg:items-center lg:w-auto">
               <button
-                class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
                 onClick={handleShare}
               >
                 Start
