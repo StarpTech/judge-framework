@@ -121,10 +121,6 @@ export default function Index() {
     }
     setCards([...cards]);
 
-    if (!getUrlParam("g")) {
-      return;
-    }
-
     const r = confirm(`You want to select '${current.title}' ?`);
     if (r !== true) {
       return;
