@@ -234,6 +234,17 @@ export default function Index() {
                   <b>State:</b> {status}
                 </span>
               </div>
+              <div>
+                <span>
+                  <iframe
+                    src="https://ghbtns.com/github-btn.html?user=starptech&repo=judge-framework&type=star&count=true&size=large"
+                    frameborder="0"
+                    scrolling="0"
+                    width="160px"
+                    height="30px"
+                  ></iframe>
+                </span>
+              </div>
             </div>
           </nav>
         </header>
