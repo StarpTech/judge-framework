@@ -1,6 +1,7 @@
 import classNames from "classnames";
+import MQTT from "async-mqtt";
 import nanoid from "nanoid";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, useMemo } from "react";
 import { useRouter } from "next/router";
 import allCards from "./cards";
 import { NextSeo } from "next-seo";
@@ -18,7 +19,7 @@ function Card({ card, index, onClick, style }) {
   const [isDisabled, setDisabled] = useState(false);
   const [isActive, setActive] = useState(false);
   const innerCardStyle = { transform: "scale(1.5)", opacity: 0.1 };
-  const { title, desc, className, disabled, color, active } = card;
+  const { title, desc, className, disabled, color, active, stat } = card;
 
   useEffect(() => {
     setDisabled(disabled);
@@ -68,7 +69,7 @@ function Card({ card, index, onClick, style }) {
           "h-32 w-full flex items-center justify-center text-white text-6xl"
         )}
       >
-        {index}
+        {index} ({stat})
       </div>
 
       <div className="relative text-white px-6 pb-6 mt-6">
@@ -84,87 +85,83 @@ function Card({ card, index, onClick, style }) {
 export default function Index() {
   const router = useRouter();
   const [cards, setCards] = useState(() => allCards);
-  const [peerID, setPeerID] = useState("");
   const [status, setStatus] = useState("");
-  const recConnection = useRef(null);
-  const sendConnection = useRef(null);
-  const peerInstance = useRef(null);
 
-  function receiveDecisions() {
-    peerInstance.current.on("connection", function(c) {
-      recConnection.current = c;
-      setStatus("Connected");
-      recConnection.current.once("data", function(data) {
-        console.log("Decision ", data);
-        c.close();
-      });
+  const userIDRef = useRef(nanoid());
+  const groupIDRef = useRef("");
+  const topicRef = useRef("");
+  const clientRef = useRef(null);
+  const decisionMadeRef = useRef(false);
+  const userMapRef = useMemo(() => new Map(), []);
+
+  const handleShare = () => {
+    router.push(`/?g=${groupIDRef.current}`, `/?g=${groupIDRef.current}`, {
+      shallow: true
     });
-  }
-
-  function connectToPeer(peerID) {
-    // Create connection to destination peer
-    sendConnection.current = peerInstance.current.connect(peerID);
-
-    sendConnection.current.on("open", function() {
-      setStatus("Connected to: " + sendConnection.current.peer);
-      console.log("Connected to: " + sendConnection.current.peer);
-    });
-
-    sendConnection.current.on("close", function() {
-      setStatus("Connection destroyed. Please refresh");
-      console.log("Connection destroyed");
-    });
-    sendConnection.current.on("error", function(err) {
-      console.log(err);
-      alert("" + err);
-    });
-  }
-
-  function makeDecision(decision) {
-    sendConnection.current.send(decision);
-    alert("Thanks for voting!");
-    setTimeout(() => sendConnection.current.close(), 1000);
-  }
+    alert("Share the url with others and don't reload the page!");
+  };
 
   useEffect(() => {
-    import("peerjs").then(peerjs => {
-      peerInstance.current = new peerjs.default(nanoid());
+    const client = MQTT.connect("ws://broker.hivemq.com:8000/mqtt");
+    const groupID = getUrlParam("g") || nanoid();
+    const topic = "judgeframework1.0/" + groupID;
 
-      peerInstance.current.on("open", function(id) {
-        setPeerID(peerInstance.current.id);
+    groupIDRef.current = groupID;
+    topicRef.current = topic;
 
-        const peerID = getUrlParam("peerID");
+    const acceptDecisions = async () => {
+      console.log("Starting");
 
-        if (peerID) {
-          setStatus(`Trying to connect with peer ${peerID}`);
-          connectToPeer(peerID);
-        } else {
-          receiveDecisions();
-          router.push(
-            `/?peerID=${peerInstance.current.id}`,
-            `/?peerID=${peerInstance.current.id}`,
-            {
-              shallow: true
+      try {
+        client.on("message", (t, message) => {
+          console.log(message.toString());
+
+          if (topic === t) {
+            const [uID, decision] = message.toString().split(",");
+            const card = cards.find(c => c.title === decision);
+            if (card) {
+              userMapRef.set(uID, { decision });
+              card.stat += 1;
             }
-          );
-          setStatus("Awaiting decisions...");
-        }
+            setCards([...cards]);
+          }
+        });
+      } catch (e) {
+        setStatus("Error! Please refresh!");
+        console.log(e);
+      }
+    };
+
+    setStatus("Connecting...");
+
+    client
+      .subscribe(topic, {
+        qos: 1
+      })
+      .then(() => {
+        console.log("Subscription created! Topic: " + topic);
       });
 
-      peerInstance.current.on("disconnected", function() {
-        console.log("Connection lost. Please reconnect");
-        setStatus("Connection lost. Please reconnect");
-        peerInstance.current.reconnect();
-      });
-      peerInstance.current.on("close", function() {
-        setStatus("Connection destroyed. Please refresh");
-        console.log("Connection destroyed");
-      });
-      peerInstance.current.on("error", function(err) {
-        console.log(err);
-        setStatus(err.toString());
-      });
+    client.on("connect", a => {
+      setStatus("Connected!");
+
+      acceptDecisions();
     });
+    client.on("reconnect", () => {
+      setStatus("Reconnecting...");
+    });
+    client.on("disconnect", () => {
+      setStatus("Disconnected...");
+    });
+    client.on("close", () => {
+      setStatus("Closed!");
+    });
+    client.on("error", err => {
+      setStatus("Error! Please refresh!");
+      console.log(err);
+    });
+
+    clientRef.current = client;
   }, []);
 
   const handleRangeClick = (start, end) => {
@@ -180,6 +177,10 @@ export default function Index() {
   };
 
   const handleCardClick = current => {
+    if (decisionMadeRef.current) {
+      alert("You can't vote twice! Ask the moderator if it's done.");
+      return;
+    }
     for (let i = 0; i < cards.length; i++) {
       const card = cards[i];
       if (card.title === current.title) {
@@ -189,7 +190,17 @@ export default function Index() {
       }
     }
     setCards([...cards]);
-    makeDecision(current.title);
+
+    alert("Thanks for voting!");
+
+    console.log(`Publish to topic ${topicRef.current}`);
+
+    clientRef.current.publish(
+      topicRef.current,
+      `${userIDRef.current},${current.title}`
+    );
+
+    decisionMadeRef.current = true;
   };
 
   return (
@@ -266,12 +277,13 @@ export default function Index() {
               </span>
             </div>
             <div className="w-full flex-grow lg:flex lg:items-center lg:w-auto">
+              <button
+                class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                onClick={handleShare}
+              >
+                Start
+              </button>
               <div className="text-sm lg:flex-grow">
-                {peerID && (
-                  <span className="block mt-4 lg:inline-block lg:mt-0 text-white ml-3">
-                    <b>PeerID:</b> {peerID}
-                  </span>
-                )}
                 <span className="block mt-4 lg:inline-block lg:mt-0 text-white ml-3">
                   <b>State:</b> {status}
                 </span>
@@ -384,9 +396,20 @@ export default function Index() {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-7 gap-1">
           {cards.map((card, index) => {
-            const cardStyle = {
-              background: `linear-gradient(90deg, rgb(136, 136, 136), ${card.stat}%, ${card.color} 0%)`
+            const total = cards.reduce((prev, curr) => prev + curr.stat, 0);
+            let val = 0;
+            if (total > 0 && card.stat > 0) {
+              val = Math.round((100 / total) * card.stat);
             }
+
+            const cardStyle = {
+              background: `linear-gradient(90deg, rgb(136, 136, 136), ${val}%, ${card.color} 0%)`
+            };
+
+            if (total > 0) {
+              cardStyle.background = `linear-gradient(90deg, ${card.color}, ${val}%, rgb(136, 136, 136) 0%)`;
+            }
+
             return (
               <Card
                 key={index.toString()}
