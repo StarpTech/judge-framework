@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import classNames from "classnames";
 
-export default function Card({ card, index, onClick, style }) {
+export default function Card({ card, index, onClick, style, count }) {
   const [isDisabled, setDisabled] = useState(false);
   const [isActive, setActive] = useState(false);
   const innerCardStyle = { transform: "scale(1.5)", opacity: 0.1 };
-  const { title, desc, className, disabled, color, active, stat } = card;
+  const { title, desc, className, disabled, color, active } = card;
 
   useEffect(() => {
     setDisabled(disabled);
@@ -55,7 +55,7 @@ export default function Card({ card, index, onClick, style }) {
           "h-32 w-full flex items-center justify-center text-white text-6xl"
         )}
       >
-        {index} {stat > 0 ? `(${stat})` : null}
+        {index} {count > 0 ? `(${count})` : null}
       </div>
 
       <div className="relative text-white px-6 pb-6 mt-6">

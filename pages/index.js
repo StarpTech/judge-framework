@@ -4,7 +4,7 @@ import nanoid from "nanoid";
 import { useEffect, useState, useRef, useMemo } from "react";
 import Card from "../components/card";
 import allCards from "../lib/cards";
-import { getUrlParam } from "../lib/helper";
+import { getUrlParam, mapToJson, jsonToMap } from "../lib/helper";
 import { NextSeo } from "next-seo";
 
 export default function Index() {
@@ -15,23 +15,21 @@ export default function Index() {
     copiedTimeout: 2000 // timeout duration in milliseconds
   });
 
-  const userIDRef = useRef(nanoid());
   const groupIDRef = useRef("");
-  const isMasterRef = useRef(false);
+  const isModeratorRef = useRef(false);
   const topicRef = useRef("");
   const clientRef = useRef(null);
-  const userMapRef = useMemo(() => new Map(), []);
+  const [decisionMap, setDecisionMap] = useState(() => new Map());
 
   const handleShare = () => {
-    setSharedUrl(
-      `${process.env.DOMAIN}${process.env.ROOT_PATH}?g=${groupIDRef.current}`
-    );
-    clipboard.copy(sharedUrl);
+    const link = `${process.env.DOMAIN}${process.env.ROOT_PATH}?g=${groupIDRef.current}`;
+    setSharedUrl(link);
+    clipboard.copy(link);
     localStorage.setItem("masterOfGroupVoteID", groupIDRef.current);
   };
 
   useEffect(() => {
-    isMasterRef.current =
+    isModeratorRef.current =
       localStorage.getItem("masterOfGroupVoteID") === getUrlParam("g") ||
       !getUrlParam("g");
 
@@ -39,6 +37,7 @@ export default function Index() {
 
     const groupID = getUrlParam("g") || nanoid();
     const topic = "judgeframework1.0/" + groupID;
+    const updatesTopic = `${topic}/updates`;
 
     groupIDRef.current = groupID;
     topicRef.current = topic;
@@ -50,17 +49,45 @@ export default function Index() {
         await client.subscribe(topic, {
           qos: 1
         });
+        await client.subscribe(updatesTopic, {
+          qos: 1
+        });
         console.log("Subscription created! Topic: " + topic);
-        client.on("message", (t, message) => {
-          console.log(message.toString());
 
+        client.on("message", async (t, message) => {
           if (topic === t) {
-            const [uID, decision] = message.toString().split(",");
+            const decision = message.toString();
             const card = cards.find(c => c.title === decision);
             if (card) {
-              userMapRef.set(uID, { decision });
-              card.stat += 1;
+              console.log("New vote received", decision);
+              const lastCount = (decisionMap.get(decision) || 0) + 1;
+              decisionMap.set(decision, lastCount);
             }
+            setCards([...cards]);
+
+            // update all other clients and retain the message with the latest voting state
+            // so all new clients will receive the last state
+            await clientRef.current.publish(
+              `${topicRef.current}/updates`,
+              mapToJson(decisionMap),
+              { retain: true }
+            );
+          } else if (t === updatesTopic) {
+            const newDecisionMap = jsonToMap(message.toString());
+            console.log("Receive map update", newDecisionMap);
+
+            // update map only when value has increased to be safe for out of order messages
+            for (const [key, value] of newDecisionMap.entries()) {
+              if (decisionMap.has(key)) {
+                if (newDecisionMap.get(key) > decisionMap.get(key)) {
+                  decisionMap.set(newDecisionMap.get(key));
+                }
+              } else {
+                decisionMap.set(key, value);
+              }
+            }
+            // update decision map to be up-to-date
+            setDecisionMap(decisionMap);
             setCards([...cards]);
           }
         });
@@ -128,10 +155,7 @@ export default function Index() {
 
     console.log(`Publish to topic ${topicRef.current}`);
 
-    await clientRef.current.publish(
-      topicRef.current,
-      `${userIDRef.current},${current.title}`
-    );
+    await clientRef.current.publish(topicRef.current, current.title);
 
     // await clientRef.current.unsubscribe(topicRef.current);
 
@@ -213,9 +237,9 @@ export default function Index() {
               </span>
             </div>
             <div className="w-full flex-grow lg:flex lg:items-center lg:w-auto">
-              {isMasterRef.current && (
+              {isModeratorRef.current && (
                 <button
-                  className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                  className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-3 ml-3 lg:mt-0"
                   onClick={handleShare}
                 >
                   Copy link
@@ -234,22 +258,20 @@ export default function Index() {
                   <b>State:</b> {status}
                 </span>
               </div>
-              <div>
-                <span>
-                  <iframe
-                    src="https://ghbtns.com/github-btn.html?user=starptech&repo=judge-framework&type=star&count=true&size=large"
-                    frameborder="0"
-                    scrolling="0"
-                    width="160px"
-                    height="30px"
-                  ></iframe>
-                </span>
+              <div className="ml-3 mt-3 lg:mt-0">
+                <iframe
+                  src="https://ghbtns.com/github-btn.html?user=starptech&repo=judge-framework&type=star&count=true&size=large"
+                  frameBorder="0"
+                  scrolling="0"
+                  width="160px"
+                  height="30px"
+                />
               </div>
             </div>
           </nav>
         </header>
 
-        {isMasterRef.current && (
+        {isModeratorRef.current && (
           <div className="md:flex mt-6 mb-6 pb-6 justify-center">
             <div
               className="bg-teal-lightest border-t-4 border-teal rounded-b text-teal-darkest px-4 py-3 shadow-md my-2 max-w-2xl"
@@ -287,15 +309,15 @@ export default function Index() {
                     <br />
                     <div className="text-right">
                       <a
-                        className="text-red-800"
+                        className="text-gray-600"
                         target="_blank"
                         href="http://mytoysdevblog.wpengine.com/index.php/2018/06/28/die-magie-von-gruppenentscheidungen/"
                       >
                         Blog post (German)
                       </a>
-                      <span className="text-red-800"> | </span>
+                      <span className="text-gray-600"> | </span>
                       <a
-                        className="text-red-800"
+                        className="text-gray-600"
                         target="_blank"
                         href="https://www.youtube.com/watch?v=t4eVn_MxOUQ"
                       >
@@ -309,7 +331,7 @@ export default function Index() {
           </div>
         )}
 
-        {isMasterRef.current && (
+        {isModeratorRef.current && (
           <div className="flex mt-6 mb-6 pb-6 justify-center">
             <ul className="flex justify-between text-xl flex-col sm:flex-row">
               <li className="mr-2">
@@ -354,10 +376,16 @@ export default function Index() {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-7 gap-1">
           {cards.map((card, index) => {
-            const total = cards.reduce((prev, curr) => prev + curr.stat, 0);
+            const count = decisionMap.get(card.title);
+            let total = 0;
+
+            for (var value of decisionMap.values()) {
+              total += value;
+            }
+
             let val = 0;
-            if (total > 0 && card.stat > 0) {
-              val = Math.round((100 / total) * card.stat);
+            if (total > 0 && count > 0) {
+              val = Math.round((100 / total) * count);
             }
 
             const cardStyle = {
@@ -375,6 +403,7 @@ export default function Index() {
                 style={cardStyle}
                 index={index}
                 card={card}
+                count={count}
               />
             );
           })}
@@ -385,12 +414,12 @@ export default function Index() {
           © 2020{" "}
           <a
             href="https://dynabase.de/"
-            className="text-red-800"
+            className="text-gray-800"
             target="_blank"
           >
             developed by dynabase
           </a>{" "}
-          <div>
+          <div className="text-gray-500">
             Icons created by{" "}
             <a
               href="https://www.flaticon.com/de/autoren/freepik"
