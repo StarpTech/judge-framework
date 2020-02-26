@@ -91,7 +91,6 @@ export default function Index() {
   const groupIDRef = useRef("");
   const topicRef = useRef("");
   const clientRef = useRef(null);
-  const decisionMadeRef = useRef(false);
   const userMapRef = useMemo(() => new Map(), []);
 
   const handleShare = () => {
@@ -180,8 +179,8 @@ export default function Index() {
     setCards([...cards]);
   };
 
-  const handleCardClick = current => {
-    if (decisionMadeRef.current) {
+  const handleCardClick = async current => {
+    if (localStorage.getItem("lastGroupVoteID") === groupIDRef.current) {
       alert("You can't vote twice! Ask the moderator if it's done.");
       return;
     }
@@ -199,16 +198,18 @@ export default function Index() {
       return;
     }
 
-    alert("Thanks for voting!");
-
     console.log(`Publish to topic ${topicRef.current}`);
 
-    clientRef.current.publish(
+    await clientRef.current.publish(
       topicRef.current,
       `${userIDRef.current},${current.title}`
     );
 
-    decisionMadeRef.current = true;
+    // await clientRef.current.unsubscribe(topicRef.current);
+
+    localStorage.setItem("lastGroupVoteID", groupIDRef.current);
+
+    alert("Thanks for voting!");
   };
 
   return (
