@@ -195,6 +195,10 @@ export default function Index() {
     }
     setCards([...cards]);
 
+    if (!getUrlParam("g")) {
+      return;
+    }
+
     alert("Thanks for voting!");
 
     console.log(`Publish to topic ${topicRef.current}`);
