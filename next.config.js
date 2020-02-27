@@ -4,10 +4,10 @@ module.exports = {
   exportPathMap: () => ({
     "/": { page: "/" }
   }),
-  assetPrefix: isProduction ? "/judge-framework" : "",
+  assetPrefix: "",
   poweredByHeader: false,
   env: {
-    ROOT_PATH: isProduction ? "/judge-framework" : "/",
-    DOMAIN: isProduction ? "http://starptech.de" : "http://localhost:3000"
+    ROOT_PATH: "/",
+    DOMAIN: isProduction ? "http://judge-framework.starptech.de" : "http://localhost:3000"
   }
 };
