@@ -380,7 +380,7 @@ export default function Index() {
             let total = 0;
 
             for (var value of decisionMap.values()) {
-              total += value;
+              total += parseInt(value);
             }
 
             let val = 0;
