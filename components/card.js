@@ -52,10 +52,13 @@ export default function Card({ card, index, onClick, style, count }) {
       </svg>
       <div
         className={classNames(
-          "h-32 w-full flex items-center justify-center text-white text-6xl"
+          "h-32 w-full flex flex-col items-center justify-center text-white text-6xl"
         )}
       >
-        {index} {count > 0 ? `(${count})` : null}
+        <div>{index}</div>
+        {count > 0 && (
+          <div className="text-sm">{count === 1 ? `(${count} Vote)` : `(${count} Votes)`}</div>
+        )}
       </div>
 
       <div className="relative text-white px-6 pb-6 mt-6">

@@ -24,7 +24,7 @@ export default function Index() {
   const topicRef = useRef("");
   const clientRef = useRef(null);
   const [decisionMap, setDecisionMap] = useState(() => new Map());
-  const [userVotesMap, setUserVotesMap] = useState(() => new Map());
+  const [userVotesMap] = useState(() => new Map());
   const [userId] = useState(() => genId());
 
   const handleShare = () => {
