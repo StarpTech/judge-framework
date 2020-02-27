@@ -1,16 +1,20 @@
 import MQTT from "async-mqtt";
 import { useClipboard } from "use-clipboard-copy";
-import nanoid from "nanoid";
-import { useEffect, useState, useRef, useMemo } from "react";
+import nanoid from "nanoid/generate";
+import nolookalikes from "nanoid-dictionary/nolookalikes";
+import { useEffect, useState, useRef } from "react";
 import Card from "../components/card";
 import allCards from "../lib/cards";
 import { getUrlParam, mapToJson, jsonToMap } from "../lib/helper";
 import { NextSeo } from "next-seo";
 
+function genId() {
+  return nanoid(nolookalikes, 12)
+}
+
 export default function Index() {
   const [cards, setCards] = useState(() => allCards);
   const [status, setStatus] = useState("");
-  const [sharedUrl, setSharedUrl] = useState("");
   const clipboard = useClipboard({
     copiedTimeout: 2000 // timeout duration in milliseconds
   });
@@ -20,10 +24,11 @@ export default function Index() {
   const topicRef = useRef("");
   const clientRef = useRef(null);
   const [decisionMap, setDecisionMap] = useState(() => new Map());
+  const [userVotesMap, setUserVotesMap] = useState(() => new Map());
+  const [userId] = useState(() => genId());
 
   const handleShare = () => {
     const link = `${process.env.DOMAIN}${process.env.ROOT_PATH}?g=${groupIDRef.current}`;
-    setSharedUrl(link);
     clipboard.copy(link);
     localStorage.setItem("masterOfGroupVoteID", groupIDRef.current);
   };
@@ -35,7 +40,7 @@ export default function Index() {
 
     const client = MQTT.connect("ws://broker.hivemq.com:8000/mqtt");
 
-    const groupID = getUrlParam("g") || nanoid();
+    const groupID = getUrlParam("g") || genId();
     const topic = "judgeframework1.0/" + groupID;
     const updatesTopic = `${topic}/updates`;
 
@@ -56,19 +61,29 @@ export default function Index() {
 
         client.on("message", async (t, message) => {
           if (topic === t) {
-            const decision = message.toString();
+            const [clientId, decision] = message.toString().split(";");
+
+            // check if client has already voted
+            if (userVotesMap.has(clientId)) {
+              console.log(`client with id ${clientId} has voted already!`);
+              return;
+            }
+
             const card = cards.find(c => c.title === decision);
+
             if (card) {
               console.log("New vote received", decision);
               const lastCount = (decisionMap.get(decision) || 0) + 1;
               decisionMap.set(decision, lastCount);
+              userVotesMap.set(clientId, true);
+              console.log('Participants', userVotesMap.keys())
             }
             setCards([...cards]);
 
             // update all other clients and retain the message with the latest voting state
             // so all new clients will receive the last state
             await clientRef.current.publish(
-              `${topicRef.current}/updates`,
+              updatesTopic,
               mapToJson(decisionMap),
               { retain: true }
             );
@@ -155,7 +170,10 @@ export default function Index() {
 
     console.log(`Publish to topic ${topicRef.current}`);
 
-    await clientRef.current.publish(topicRef.current, current.title);
+    await clientRef.current.publish(
+      topicRef.current,
+      [userId, current.title].join(";")
+    );
 
     // await clientRef.current.unsubscribe(topicRef.current);
 
@@ -380,7 +398,7 @@ export default function Index() {
             let total = 0;
 
             for (var value of decisionMap.values()) {
-              total += parseInt(value);
+              total += value;
             }
 
             let val = 0;
@@ -398,7 +416,7 @@ export default function Index() {
 
             return (
               <Card
-                key={index.toString()}
+                key={card.title}
                 onClick={handleCardClick}
                 style={cardStyle}
                 index={index}

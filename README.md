@@ -37,8 +37,8 @@ A user can't vote twice we persist the latest vote in the local storage.
 
 ### Message duplicates
 
-We maintain a map to filter duplicates.
+Votes from clients can arrive more than once. We maintain a map of voted clients to protect against that.
 
 ### Message order
 
-Due to the fact that we are only interested in messages which increase the current state we can ignore all other messages.
+Message order mustn't be guaranteed we are only interested in messages which increase the current state of a vote card and can ignore all other messages.
