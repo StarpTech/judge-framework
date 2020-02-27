@@ -15,7 +15,7 @@ We don't collect or send any sensitive data.
 
 - Share a unique link
 - Distribute votings to all clients
-- Sync clients which arrived later
+- Sync new clients which joins later on
 - Protect against double votes
 - Protect against duplicate and out of order messages
 
@@ -27,13 +27,13 @@ When a user shares a link we create a new unique subscription in form of `judgef
 
 When a user visit the link and clicks on a voting card the `decision` is published to the subscription in (Step 1) and all participants will receive the event in order to be up-to-date.
 
-### Sync stale clients
+### Sync new and existing clients
 
 In order to redeliver the latest state of the voting to clients which are out of sync we use the `retain` mechanism in the MQTT protocol. It allows to mark a published message as `retain`. A retain message is automatically published to all new and existing clients. The message contains the complete state of the latest voting. After each vote, the retain message gets overwritten and all following clients will receive the latest voting state.
 
 ### Double votes
 
-A user can't vote twice we persist the latest vote in the local storage.
+A user can't vote twice we persist the latest voted session in the local storage.
 
 ### Message duplicates
 
@@ -41,4 +41,4 @@ Votes from clients can arrive more than once. We maintain a map of voted clients
 
 ### Message order
 
-Message order mustn't be guaranteed we are only interested in messages which increase the current state of a vote card and can ignore all other messages.
+Message order mustn't be guaranteed we are only interested in messages which increase the current state of a card 0-6.
