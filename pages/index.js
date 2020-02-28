@@ -273,29 +273,37 @@ export default function Index() {
                 JUDGE Framework
               </span>
             </div>
-            <div className="w-full flex-grow lg:flex lg:items-center lg:w-auto">
+            <div className="w-full flex-grow lg:flex lg:items-center lg:w-auto mt-3 lg:mt-0">
               {isModeratorRef.current && (
-                <button
-                  className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-3 ml-3 lg:mt-0"
-                  onClick={handleShare}
-                >
-                  Copy link
-                </button>
+                <>
+                  <button
+                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-3 lg:ml-3 lg:mt-0"
+                    onClick={() => (window.location = "/")}
+                  >
+                    New
+                  </button>
+                  <button
+                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-3 ml-3 lg:mt-0"
+                    onClick={handleShare}
+                  >
+                    Copy link
+                  </button>
+                </>
               )}
               <div className="lg:flex-grow">
                 <span className="block mt-4 lg:inline-block lg:mt-0 text-green-500 ml-3">
                   {clipboard.copied ? "Copied!" : null}
                 </span>
                 {groupIDRef.current && (
-                  <span className="block mt-4 lg:inline-block lg:mt-0 text-gray-700 ml-3">
+                  <span className="block mt-4 lg:inline-block lg:mt-0 text-gray-700 lg:ml-3">
                     <b>Session:</b> {groupIDRef.current}
                   </span>
                 )}
-                <span className="block mt-4 lg:inline-block lg:mt-0 text-gray-700 ml-3">
+                <span className="block mt-4 lg:inline-block lg:mt-0 text-gray-700 lg:ml-3">
                   <b>State:</b> {status}
                 </span>
               </div>
-              <div className="ml-3 mt-3 lg:mt-0">
+              <div className="lg:ml-3 mt-3 lg:mt-0">
                 <iframe
                   src="https://ghbtns.com/github-btn.html?user=starptech&repo=judge-framework&type=star&count=true&size=large"
                   frameBorder="0"
@@ -411,7 +419,7 @@ export default function Index() {
           </div>
         )}
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-7 gap-1">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-1">
           {cards.map((card, index) => {
             const count = decisionMap.get(card.title);
             let total = 0;
