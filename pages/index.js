@@ -1,6 +1,7 @@
 import MQTT from "async-mqtt";
 import { useClipboard } from "use-clipboard-copy";
 import nanoid from "nanoid/generate";
+import Head from "next/head";
 import nolookalikes from "nanoid-dictionary/nolookalikes";
 import { useEffect, useState, useRef } from "react";
 import Card from "../components/card";
@@ -9,7 +10,7 @@ import { getUrlParam, mapToJson, jsonToMap } from "../lib/helper";
 import { NextSeo } from "next-seo";
 
 function genId() {
-  return nanoid(nolookalikes, 12)
+  return nanoid(nolookalikes, 12);
 }
 
 export default function Index() {
@@ -76,7 +77,7 @@ export default function Index() {
               const lastCount = (decisionMap.get(decision) || 0) + 1;
               decisionMap.set(decision, lastCount);
               userVotesMap.set(clientId, true);
-              console.log('Participants', userVotesMap.keys())
+              console.log("Participants", userVotesMap.keys());
             }
             setCards([...cards]);
 
@@ -185,12 +186,31 @@ export default function Index() {
       <NextSeo
         title="JUDGE - Just an Ultimate Decision Guide"
         description="JUDGE - Just an Ultimate Decision Guide"
+        canonical={process.env.DOMAIN}
       />
       <div>
-        <link
-          href="https://fonts.googleapis.com/css?family=Lato:400,700,900&display=swap"
-          rel="stylesheet"
-        />
+        <Head>
+          <link
+            href="https://fonts.googleapis.com/css?family=Lato:400,700,900&display=swap"
+            rel="stylesheet"
+          />
+          {/*<!-- Global site tag (gtag.js) - Google Analytics -->*/}
+          <script
+            async
+            src="https://www.googletagmanager.com/gtag/js?id=UA-159316068-1"
+          />
+          <script
+            dangerouslySetInnerHTML={{
+              __html: `
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+            
+              gtag('config', 'UA-159316068-1');
+              `
+            }}
+          />
+        </Head>
 
         <header>
           <nav className="flex items-center justify-between flex-wrap bg-gray-700 p-6">
