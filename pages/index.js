@@ -182,7 +182,7 @@ export default function Index() {
   };
 
   return (
-    <div className="mx-auto">
+    <>
       <NextSeo
         title="JUDGE - Just an Ultimate Decision Guide"
         description="JUDGE - Just an Ultimate Decision Guide"
@@ -210,10 +210,10 @@ export default function Index() {
           }}
         />
       </Head>
-      <div>
+      <div className="content">
         <header>
-          <nav className="flex items-center justify-between flex-wrap bg-gray-700 p-6">
-            <div className="flex items-center flex-shrink-0 text-white mr-6">
+          <nav className="flex items-center justify-between flex-wrap bg-transparent p-6">
+            <div className="flex items-center flex-shrink-0 text-black mr-6">
               <svg
                 height="35pt"
                 viewBox="-64 0 512 512"
@@ -269,7 +269,7 @@ export default function Index() {
                   fill="#dee1e5"
                 />
               </svg>
-              <span className="font-semibold text-xl tracking-tight ml-3">
+              <span className="font-semibold text-xl tracking-tight text-gray-700 ml-3">
                 JUDGE Framework
               </span>
             </div>
@@ -287,11 +287,11 @@ export default function Index() {
                   {clipboard.copied ? "Copied!" : null}
                 </span>
                 {groupIDRef.current && (
-                  <span className="block mt-4 lg:inline-block lg:mt-0 text-white ml-3">
+                  <span className="block mt-4 lg:inline-block lg:mt-0 text-gray-700 ml-3">
                     <b>Session:</b> {groupIDRef.current}
                   </span>
                 )}
-                <span className="block mt-4 lg:inline-block lg:mt-0 text-white ml-3">
+                <span className="block mt-4 lg:inline-block lg:mt-0 text-gray-700 ml-3">
                   <b>State:</b> {status}
                 </span>
               </div>
@@ -309,9 +309,9 @@ export default function Index() {
         </header>
 
         {isModeratorRef.current && (
-          <div className="md:flex mt-6 mb-6 pb-6 justify-center">
+          <div className="md:flex mb-6 pb-6 justify-center p-4">
             <div
-              className="bg-teal-lightest border-t-4 border-teal rounded-b text-teal-darkest px-4 py-3 shadow-md my-2 max-w-2xl"
+              className="bg-white border-t-4 border-teal rounded-b text-teal-darkest px-4 py-3 shadow-md my-2 max-w-2xl"
               role="alert"
             >
               <div className="flex">
@@ -446,7 +446,7 @@ export default function Index() {
           })}
         </div>
       </div>
-      <div>
+      <footer className="footer p-4">
         <div className="text-xs text-center text-teal-900 mt-5">
           © 2020{" "}
           <a
@@ -470,7 +470,7 @@ export default function Index() {
             </a>
           </div>
         </div>
-      </div>
-    </div>
+      </footer>
+    </>
   );
 }

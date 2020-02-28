@@ -14,3 +14,19 @@
 .card--active {
   transform: scale(1.2);
 }
+
+html,
+body,
+#__next {
+  height: 100%;
+}
+#__next {
+  display: flex;
+  flex-direction: column;
+}
+.content {
+  flex: 1 0 auto;
+}
+.footer {
+  flex-shrink: 0;
+}
