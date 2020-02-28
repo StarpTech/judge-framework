@@ -288,8 +288,8 @@ export default function Index() {
                   >
                     Copy link
                     <span className="tooltip-text bg-gray-700 p-3 -mt-6 -ml-6 rounded">
-                      You can share the link with your colleagues to realtime
-                      evaluation of the voting.
+                      You can share the link with your colleagues to get
+                      realtime evaluation of the voting.
                     </span>
                   </button>
                 </>
