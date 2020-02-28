@@ -188,30 +188,29 @@ export default function Index() {
         description="JUDGE - Just an Ultimate Decision Guide"
         canonical={process.env.DOMAIN}
       />
-      <div>
-        <Head>
-          <link
-            href="https://fonts.googleapis.com/css?family=Lato:400,700,900&display=swap"
-            rel="stylesheet"
-          />
-          {/*<!-- Global site tag (gtag.js) - Google Analytics -->*/}
-          <script
-            async
-            src="https://www.googletagmanager.com/gtag/js?id=UA-159316068-1"
-          />
-          <script
-            dangerouslySetInnerHTML={{
-              __html: `
+      <Head>
+        <link
+          href="https://fonts.googleapis.com/css?family=Lato:400,700,900&display=swap"
+          rel="stylesheet"
+        />
+        {/*<!-- Global site tag (gtag.js) - Google Analytics -->*/}
+        <script
+          async
+          src="https://www.googletagmanager.com/gtag/js?id=UA-159316068-1"
+        />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
               window.dataLayer = window.dataLayer || [];
               function gtag(){dataLayer.push(arguments);}
               gtag('js', new Date());
             
               gtag('config', 'UA-159316068-1');
               `
-            }}
-          />
-        </Head>
-
+          }}
+        />
+      </Head>
+      <div>
         <header>
           <nav className="flex items-center justify-between flex-wrap bg-gray-700 p-6">
             <div className="flex items-center flex-shrink-0 text-white mr-6">
