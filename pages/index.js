@@ -190,7 +190,7 @@ export default function Index() {
       />
       <Head>
         <link
-          href="https://fonts.googleapis.com/css?family=Lato:400,700,900&display=swap"
+          href="https://fonts.googleapis.com/css?family=Merriweather+Sans:400,700&display=swap"
           rel="stylesheet"
         />
         {/*<!-- Global site tag (gtag.js) - Google Analytics -->*/}
@@ -282,7 +282,7 @@ export default function Index() {
                   Copy link
                 </button>
               )}
-              <div className="text-sm lg:flex-grow">
+              <div className="lg:flex-grow">
                 <span className="block mt-4 lg:inline-block lg:mt-0 text-green-500 ml-3">
                   {clipboard.copied ? "Copied!" : null}
                 </span>
@@ -323,8 +323,8 @@ export default function Index() {
                   <path d="M2.93 17.07A10 10 0 1 1 17.07 2.93 10 10 0 0 1 2.93 17.07zm12.73-1.41A8 8 0 1 0 4.34 4.34a8 8 0 0 0 11.32 11.32zM9 11V9h2v6H9v-4zm0-6h2v2H9V5z" />
                 </svg>
                 <div>
-                  <p className="font-bold">What is JUDGE?</p>
-                  <div className="text-sm">
+                  <p className="font-bold text-xl">What is JUDGE?</p>
+                  <div>
                     JUDGE – Just an Ultimate Decision Guide
                     <br /> is a tool to express your insecurity in a way that
                     others can understand.

@@ -1,9 +1,9 @@
 module.exports = {
   theme: {
     fontFamily: {
-      display: ["Lato"],
-      body: ["Lato"],
-      sans: ["Lato", "Arial", "sans-serif"]
+      display: ["Merriweather Sans"],
+      body: ["Merriweather Sans"],
+      sans: ["Merriweather Sans", "Arial", "sans-serif"]
     },
     extend: {}
   },
