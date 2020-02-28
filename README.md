@@ -6,7 +6,7 @@ The framework was shown first in [code.talks commerce 2018 - Agile Transformatio
 
 ## What is it?
 
-You can share a link with your colleagues and get realtime evaluation of the voting.
+You can share a link with your colleagues to get realtime evaluation of the voting.
 
 ## How does it work?
 

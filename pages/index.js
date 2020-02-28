@@ -283,10 +283,14 @@ export default function Index() {
                     New
                   </button>
                   <button
-                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-3 ml-3 lg:mt-0"
+                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-3 ml-3 lg:mt-0 tooltip"
                     onClick={handleShare}
                   >
                     Copy link
+                    <span className="tooltip-text bg-gray-700 p-3 -mt-6 -ml-6 rounded">
+                      You can share the link with your colleagues to realtime
+                      evaluation of the voting.
+                    </span>
                   </button>
                 </>
               )}
