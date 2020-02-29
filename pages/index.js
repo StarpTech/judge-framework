@@ -190,6 +190,10 @@ export default function Index() {
       />
       <Head>
         <link
+          href="https://use.fontawesome.com/releases/v5.12.1/css/all.css"
+          rel="stylesheet"
+        />
+        <link
           href="https://fonts.googleapis.com/css?family=Merriweather+Sans:400,700&display=swap"
           rel="stylesheet"
         />
@@ -280,13 +284,15 @@ export default function Index() {
                     className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-3 lg:ml-3 lg:mt-0"
                     onClick={() => (window.location = "/")}
                   >
-                    New
+                    <i className="far fa-file"></i>
+                    <span className="ml-2">New</span>
                   </button>
                   <button
                     className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-3 ml-3 lg:mt-0 tooltip"
                     onClick={handleShare}
                   >
-                    Copy link
+                    <i className="far fa-copy"></i>
+                    <span className="ml-2">Copy link</span>
                     <span className="tooltip-text bg-gray-700 p-3 -mt-6 -ml-6 rounded">
                       You can share the link with your colleagues to get
                       realtime evaluation of the voting.
@@ -300,11 +306,13 @@ export default function Index() {
                 </span>
                 {groupIDRef.current && (
                   <span className="block mt-4 lg:inline-block lg:mt-0 text-gray-700 lg:ml-3">
-                    <b>Session:</b> {groupIDRef.current}
+                    <i className="fas fa-users"></i>
+                    <b className="ml-2">Session:</b> {groupIDRef.current}
                   </span>
                 )}
-                <span className="block mt-4 lg:inline-block lg:mt-0 text-gray-700 lg:ml-3">
-                  <b>State:</b> {status}
+                <span className="block mt-4 lg:inline-block lg:mt-0 text-gray-700 lg:ml-5">
+                  <i className="fas fa-ethernet"></i>
+                  <b className="ml-2">State:</b> {status}
                 </span>
               </div>
               <div className="lg:ml-3 mt-3 lg:mt-0">
@@ -327,13 +335,7 @@ export default function Index() {
               role="alert"
             >
               <div className="flex">
-                <svg
-                  className="h-6 w-6 text-teal mr-4"
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 20 20"
-                >
-                  <path d="M2.93 17.07A10 10 0 1 1 17.07 2.93 10 10 0 0 1 2.93 17.07zm12.73-1.41A8 8 0 1 0 4.34 4.34a8 8 0 0 0 11.32 11.32zM9 11V9h2v6H9v-4zm0-6h2v2H9V5z" />
-                </svg>
+                <i className="far fa-question-circle text-teal mr-4 text-4xl"></i>
                 <div>
                   <p className="font-bold text-xl">What is JUDGE?</p>
                   <div>
