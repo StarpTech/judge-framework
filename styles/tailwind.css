@@ -6,10 +6,10 @@
   transition: all 0.2s ease-in-out;
 }
 .grow:hover {
-  transform: scale(1.2);
+  transform: scale(1.1);
 }
 .card--disabled {
-  filter: blur(3px) grayscale(100%);
+  filter: blur(1px) grayscale(100%);
 }
 .card--active {
   transform: scale(1.2);

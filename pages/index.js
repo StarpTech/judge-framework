@@ -329,7 +329,7 @@ export default function Index() {
         </header>
 
         {isModeratorRef.current && (
-          <div className="md:flex mb-6 pb-6 justify-center p-4">
+          <div className="flex mb-6 pb-6 justify-center p-4">
             <div
               className="bg-white border-t-4 border-teal rounded-b text-teal-darkest px-4 py-3 shadow-md my-2 max-w-2xl"
               role="alert"
